@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NexusInfra Solutions | Next-Gen Enterprise IT Infrastructure</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            900: '#0c4a6e',
+                            glow: '#00f0ff'
+                        },
+                        dark: {
+                            900: '#090d16',
+                            800: '#0f172a',
+                            700: '#1e293b',
+                            600: '#334155'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'float': 'float 6s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* Custom Glowing & Glassmorphism Effects */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #090d16;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.15);
+        }
+
+        .glass-panel-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-panel-hover:hover {
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 0 25px -5px rgba(14, 165, 233, 0.25);
+            transform: translateY(-4px);
+        }
+
+        .text-gradient {
+            background: linear-gradient(135deg, #ffffff 0%, #38bdf8 50%, #0284c7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .text-gradient-cyan {
+            background: linear-gradient(135deg, #38bdf8 0%, #00f0ff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .grid-bg {
+            background-size: 40px 40px;
+            background-image: 
+                linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+        }
+
+        .glow-effect {
+            position: absolute;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(14, 165, 233, 0.18) 0%, rgba(0, 0, 0, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Custom Range Slider */
+        input[type=range] {
+            -webkit-appearance: none;
+            background: #1e293b;
+            border-radius: 8px;
+            height: 8px;
+        }
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: #38bdf8;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(56, 189, 248, 0.8);
+            transition: transform 0.1s;
+        }
+        input[type=range]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body class="antialiased selection:bg-brand-500 selection:text-white">
+
+    <!-- Glowing Background Highlights -->
+    <div class="glow-effect top-10 left-1/4"></div>
+    <div class="glow-effect top-96 right-10"></div>
+    <div class="glow-effect bottom-1/3 left-10"></div>
+
+    <!-- Navigation Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-slate-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-cyan-400 p-0.5 flex items-center justify-center shadow-lg shadow-brand-500/20">
+                    <div class="w-full h-full bg-dark-900 rounded-[10px] flex items-center justify-center group-hover:bg-transparent transition-colors">
+                        <i data-lucide="cpu" class="w-6 h-6 text-brand-400 group-hover:text-white transition-colors"></i>
+                    </div>
+                </div>
+                <span class="text-xl font-bold tracking-tight text-white">NEXUS<span class="text-brand-400">INFRA</span></span>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+                <a href="#solutions" class="hover:text-brand-400 transition-colors">Solutions</a>
+                <a href="#calculator" class="hover:text-brand-400 transition-colors">Cost Estimator</a>
+                <a href="#why-us" class="hover:text-brand-400 transition-colors">Why Nexus</a>
+                <a href="#testimonials" class="hover:text-brand-400 transition-colors">Case Studies</a>
+                <a href="#contact" class="hover:text-brand-400 transition-colors">Contact</a>
+            </nav>
+
+            <!-- Action Buttons -->
+            <div class="hidden md:flex items-center gap-4">
+                <a href="#calculator" class="text-sm font-semibold text-slate-300 hover:text-white px-4 py-2.5 transition-colors">
+                    Calculator
+                </a>
+                <a href="#contact" class="text-sm font-semibold text-slate-950 bg-gradient-to-r from-brand-400 to-cyan-400 hover:from-cyan-400 hover:to-brand-400 px-5 py-2.5 rounded-xl shadow-lg shadow-brand-500/20 transition-all hover:scale-[1.02]">
+                    Get Started
+                </a>
+            </div>
+
+            <!-- Mobile Menu Toggle Button -->
+            <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800/60 focus:outline-none">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden glass-panel border-b border-slate-800 px-4 pt-2 pb-6 space-y-3">
+            <a href="#solutions" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-brand-400">Solutions</a>
+            <a href="#calculator" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-brand-400">Cost Estimator</a>
+            <a href="#why-us" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-brand-400">Why Nexus</a>
+            <a href="#testimonials" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-brand-400">Case Studies</a>
+            <a href="#contact" class="block px-3 py-2 rounded-lg text-slate-300 hover:bg-slate-800 hover:text-brand-400">Contact</a>
+            <div class="pt-2 flex flex-col gap-2">
+                <a href="#contact" class="text-center text-sm font-semibold text-slate-950 bg-gradient-to-r from-brand-400 to-cyan-400 py-3 rounded-xl">
+                    Get Started
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative pt-20">
+        <!-- HERO SECTION -->
+        <section class="relative min-h-[90vh] flex items-center justify-center grid-bg pt-12 pb-20 overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                
+                <!-- Pill Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-panel border border-brand-500/30 text-xs font-semibold text-brand-400 mb-8 animate-pulse-slow">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-ping"></span>
+                    Next-Gen Cloud Architecture & DevOps Enablement
+                </div>
+
+                <!-- Main Title -->
+                <h1 class="text-4xl sm:text-6xl md:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight">
+                    Architecting Autonomous & <br class="hidden sm:inline"/>
+                    <span class="text-gradient">Resilient IT Infrastructure</span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="max-w-3xl mx-auto text-lg sm:text-xl text-slate-400 mb-10 leading-relaxed">
+                    Empowering enterprises with automated cloud infrastructure, zero-trust security, and zero-downtime architecture built for high-scale digital operations.
+                </p>
+
+                <!-- Hero CTAs -->
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                    <a href="#solutions" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-base font-semibold text-slate-950 bg-gradient-to-r from-brand-400 to-cyan-400 hover:from-cyan-400 hover:to-brand-400 px-8 py-4 rounded-xl shadow-xl shadow-brand-500/25 transition-all transform hover:-translate-y-0.5">
+                        <span>Explore Solutions</span>
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </a>
+                    <a href="#calculator" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 text-base font-semibold text-slate-200 glass-panel hover:bg-slate-800/80 px-8 py-4 rounded-xl transition-all border border-slate-700">
+                        <i data-lucide="calculator" class="w-5 h-5 text-brand-400"></i>
+                        <span>Estimate Costs</span>
+                    </a>
+                </div>
+
+                <!-- Live Metrics Grid -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                    <div class="glass-panel p-6 rounded-2xl text-center">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-white mb-1">99.999%</div>
+                        <div class="text-xs font-medium text-slate-400 uppercase tracking-wider">Uptime SLA</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl text-center">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-brand-400 mb-1">&lt;15ms</div>
+                        <div class="text-xs font-medium text-slate-400 uppercase tracking-wider">Global Latency</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl text-center">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-cyan-400 mb-1">500+</div>
+                        <div class="text-xs font-medium text-slate-400 uppercase tracking-wider">Enterprise Clients</div>
+                    </div>
+                    <div class="glass-panel p-6 rounded-2xl text-center">
+                        <div class="text-3xl sm:text-4xl font-extrabold text-white mb-1">24/7/365</div>
+                        <div class="text-xs font-medium text-slate-400 uppercase tracking-wider">SOC Operations</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CORE SERVICES SECTION -->
+        <section id="solutions" class="py-24 relative z-10 border-t border-slate-800/60 bg-dark-900/50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-xs font-bold text-brand-400 uppercase tracking-widest mb-3">Core Infrastructure Capabilities</h2>
+                    <p class="text-3xl sm:text-4xl font-bold text-white tracking-tight">End-to-End Enterprise Technology Stacks</p>
+                    <p class="text-slate-400 mt-4 text-base">Engineered for fault tolerance, security compliance, and effortless scalability.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    
+                    <!-- Service 1 -->
+                    <div class="glass-panel glass-panel-hover p-8 rounded-2xl relative group">
+                        <div class="w-14 h-14 rounded-xl bg-brand-500/10 border border-brand-500/30 flex items-center justify-center mb-6 text-brand-400 group-hover:scale-110 group-hover:bg-brand-500/20 transition-all">
+                            <i data-lucide="cloud-cog" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Cloud Architecture & Migration</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">Multi-cloud and hybrid deployments across AWS, Azure, and GCP with automated cost optimization and microservice refactoring.</p>
+                        <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Hybrid & Multi-Cloud Provisioning</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Serverless Architecture</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 2 -->
+                    <div class="glass-panel glass-panel-hover p-8 rounded-2xl relative group">
+                        <div class="w-14 h-14 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center mb-6 text-cyan-400 group-hover:scale-110 group-hover:bg-cyan-500/20 transition-all">
+                            <i data-lucide="shield-check" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Cyber Security & Compliance</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">Zero-Trust network architecture, continuous vulnerability mitigation, threat containment, and automated SOC2 / ISO compliance.</p>
+                        <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Zero-Trust Access Control</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Real-time SIEM Monitoring</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 3 -->
+                    <div class="glass-panel glass-panel-hover p-8 rounded-2xl relative group">
+                        <div class="w-14 h-14 rounded-xl bg-indigo-500/10 border border-indigo-500/30 flex items-center justify-center mb-6 text-indigo-400 group-hover:scale-110 group-hover:bg-indigo-500/20 transition-all">
+                            <i data-lucide="network" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Enterprise SD-WAN & Networking</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">Software-defined networking, ultra-low latency mesh routing, high-performance edge computing, and global BGP optimization.</p>
+                        <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> SD-WAN Infrastructure</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Dedicated Global Interconnects</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 4 -->
+                    <div class="glass-panel glass-panel-hover p-8 rounded-2xl relative group">
+                        <div class="w-14 h-14 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center mb-6 text-purple-400 group-hover:scale-110 group-hover:bg-purple-500/20 transition-all">
+                            <i data-lucide="terminal" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">DevOps & Infrastructure-as-Code</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">Automate deployment pipelines using Terraform, Ansible, and Kubernetes to achieve rapid, reproducible software delivery cycles.</p>
+                        <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> CI/CD Pipeline Automation</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Kubernetes Cluster Management</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 5 -->
+                    <div class="glass-panel glass-panel-hover p-8 rounded-2xl relative group">
+                        <div class="w-14 h-14 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center mb-6 text-emerald-400 group-hover:scale-110 group-hover:bg-emerald-500/20 transition-all">
+                            <i data-lucide="server" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Disaster Recovery & Data Center</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">Instantaneous failover architectures, multi-region replication, and near-zero RPO/RTO data redundancy guarantees.</p>
+                        <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Automated Hot-Site Failover</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Immutable Backup Vaults</li>
+                        </ul>
+                    </div>
+
+                    <!-- Service 6 -->
+                    <div class="glass-panel glass-panel-hover p-8 rounded-2xl relative group">
+                        <div class="w-14 h-14 rounded-xl bg-pink-500/10 border border-pink-500/30 flex items-center justify-center mb-6 text-pink-400 group-hover:scale-110 group-hover:bg-pink-500/20 transition-all">
+                            <i data-lucide="activity" class="w-7 h-7"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-white mb-3">Managed NOC & Observability</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed mb-4">24/7 proactive network monitoring, automated incident remediation, full-stack tracing, and telemetry analytics.</p>
+                        <ul class="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> 15-Minute Response SLA</li>
+                            <li class="flex items-center gap-2"><i data-lucide="check" class="w-4 h-4 text-cyan-400"></i> Predictive Telemetry AI</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- INTERACTIVE COST ESTIMATOR TOOL -->
+        <section id="calculator" class="py-24 relative z-10 border-t border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-brand-500/20">
+                    
+                    <div class="max-w-3xl mb-12">
+                        <span class="px-3 py-1 rounded-md bg-brand-500/10 border border-brand-500/30 text-xs font-semibold text-brand-400">Interactive Tool</span>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-white mt-3">Infrastructure Cost Estimator</h2>
+                        <p class="text-slate-400 mt-2 text-sm sm:text-base">Customize compute nodes, storage parameters, and SLA tier to compute estimated monthly expenditure.</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                        
+                        <!-- Control Panel (Sliders & Selectors) -->
+                        <div class="lg:col-span-7 space-y-8">
+                            
+                            <!-- Cloud Compute Nodes Slider -->
+                            <div>
+                                <div class="flex justify-between items-center mb-3">
+                                    <label class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                                        <i data-lucide="cpu" class="w-4 h-4 text-brand-400"></i> Compute Nodes / Instances
+                                    </label>
+                                    <span id="nodesVal" class="text-lg font-bold text-brand-400 bg-slate-800 px-3 py-1 rounded-lg border border-slate-700">8</span>
+                                </div>
+                                <input type="range" id="nodesInput" min="1" max="100" value="8" class="w-full">
+                                <div class="flex justify-between text-xs text-slate-500 mt-1">
+                                    <span>1 Node</span>
+                                    <span>50 Nodes</span>
+                                    <span>100 Nodes</span>
+                                </div>
+                            </div>
+
+                            <!-- Storage Capacity Slider -->
+                            <div>
+                                <div class="flex justify-between items-center mb-3">
+                                    <label class="text-sm font-semibold text-slate-200 flex items-center gap-2">
+                                        <i data-lucide="hard-drive" class="w-4 h-4 text-cyan-400"></i> NVMe High-Speed Storage (TB)
+                                    </label>
+                                    <span id="storageVal" class="text-lg font-bold text-cyan-400 bg-slate-800 px-3 py-1 rounded-lg border border-slate-700">12 TB</span>
+                                </div>
+                                <input type="range" id="storageInput" min="1" max="100" value="12" class="w-full">
+                                <div class="flex justify-between text-xs text-slate-500 mt-1">
+                                    <span>1 TB</span>
+                                    <span>50 TB</span>
+                                    <span>100 TB</span>
+                                </div>
+                            </div>
+
+                            <!-- SLA & Support Tier Selection -->
+                            <div>
+                                <label class="text-sm font-semibold text-slate-200 block mb-3">Managed NOC & SLA Tier</label>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <button type="button" class="sla-btn px-4 py-3 rounded-xl border border-slate-700 text-xs sm:text-sm font-medium text-slate-300 hover:border-brand-400 transition-all text-center" data-multiplier="1">
+                                        Standard (99.9%)
+                                    </button>
+                                    <button type="button" class="sla-btn active px-4 py-3 rounded-xl border border-brand-400 bg-brand-500/10 text-xs sm:text-sm font-semibold text-brand-400 transition-all text-center" data-multiplier="1.3">
+                                        Enterprise (99.99%)
+                                    </button>
+                                    <button type="button" class="sla-btn px-4 py-3 rounded-xl border border-slate-700 text-xs sm:text-sm font-medium text-slate-300 hover:border-brand-400 transition-all text-center" data-multiplier="1.6">
+                                        Mission-Critical
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Add-on Toggles -->
+                            <div class="space-y-3 pt-2">
+                                <label class="text-sm font-semibold text-slate-200 block">Optional Enhancements</label>
+                                <div class="flex items-center justify-between p-3 rounded-xl border border-slate-800 bg-slate-900/60">
+                                    <span class="text-xs sm:text-sm text-slate-300 flex items-center gap-2">
+                                        <i data-lucide="shield" class="w-4 h-4 text-emerald-400"></i> DDoS Protection & WAF Integration
+                                    </span>
+                                    <input type="checkbox" id="ddosToggle" class="w-5 h-5 accent-brand-500 rounded cursor-pointer" checked>
+                                </div>
+                                <div class="flex items-center justify-between p-3 rounded-xl border border-slate-800 bg-slate-900/60">
+                                    <span class="text-xs sm:text-sm text-slate-300 flex items-center gap-2">
+                                        <i data-lucide="refresh-cw" class="w-4 h-4 text-purple-400"></i> Multi-Region Hot-Failover Backup
+                                    </span>
+                                    <input type="checkbox" id="failoverToggle" class="w-5 h-5 accent-brand-500 rounded cursor-pointer">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Calculation Display Card -->
+                        <div class="lg:col-span-5 flex flex-col justify-between glass-panel p-8 rounded-2xl border border-slate-700 bg-dark-900/90 relative overflow-hidden">
+                            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-brand-500/10 rounded-full blur-2xl"></div>
+
+                            <div>
+                                <h3 class="text-lg font-bold text-white mb-6 border-b border-slate-800 pb-3">Estimated Investment Summary</h3>
+                                
+                                <div class="space-y-4 text-sm">
+                                    <div class="flex justify-between text-slate-400">
+                                        <span>Compute Cluster:</span>
+                                        <span id="computeCost" class="text-slate-200 font-semibold">$0</span>
+                                    </div>
+                                    <div class="flex justify-between text-slate-400">
+                                        <span>NVMe Storage Array:</span>
+                                        <span id="storageCost" class="text-slate-200 font-semibold">$0</span>
+                                    </div>
+                                    <div class="flex justify-between text-slate-400">
+                                        <span>Managed Support Tier:</span>
+                                        <span id="slaCost" class="text-slate-200 font-semibold">$0</span>
+                                    </div>
+                                    <div class="flex justify-between text-slate-400">
+                                        <span>Security & Redundancy:</span>
+                                        <span id="addonsCost" class="text-slate-200 font-semibold">$0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-8 pt-6 border-t border-slate-800">
+                                <div class="text-xs text-slate-400 uppercase tracking-wider font-semibold mb-1">Estimated Total Cost</div>
+                                <div class="flex items-baseline gap-2 mb-6">
+                                    <span id="totalPrice" class="text-4xl sm:text-5xl font-extrabold text-gradient-cyan">$0</span>
+                                    <span class="text-slate-400 text-sm">/ month</span>
+                                </div>
+
+                                <a href="#contact" class="w-full inline-flex items-center justify-center gap-2 text-sm font-bold text-slate-950 bg-gradient-to-r from-brand-400 to-cyan-400 hover:from-cyan-400 hover:to-brand-400 py-3.5 rounded-xl shadow-lg shadow-brand-500/20 transition-all">
+                                    <span>Lock In This Rate</span>
+                                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                                </a>
+                                <p class="text-[11px] text-slate-500 text-center mt-3">Final quote subject to baseline assessment & volume discounts.</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHY CHOOSE US / GUARANTEES SECTION -->
+        <section id="why-us" class="py-24 relative z-10 bg-dark-900/60 border-t border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    
+                    <div>
+                        <span class="text-xs font-bold text-brand-400 uppercase tracking-widest">Enterprise Trust Pillars</span>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2 mb-6">Architected for Uncompromising Performance</h2>
+                        <p class="text-slate-400 leading-relaxed mb-8">
+                            We don't just manage servers—we construct fault-tolerant digital foundations that guarantee your core applications remain performant under maximum loads.
+                        </p>
+
+                        <div class="space-y-6">
+                            <!-- Pillar 1 -->
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-brand-500/10 border border-brand-500/30 flex-shrink-0 flex items-center justify-center text-brand-400">
+                                    <i data-lucide="award" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-white mb-1">SOC 2 Type II & ISO 27001 Certified</h3>
+                                    <p class="text-slate-400 text-sm">Full adherence to strict international security frameworks and data privacy standards.</p>
+                                </div>
+                            </div>
+
+                            <!-- Pillar 2 -->
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-cyan-500/10 border border-cyan-500/30 flex-shrink-0 flex items-center justify-center text-cyan-400">
+                                    <i data-lucide="clock" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-white mb-1">99.99% Financial Uptime Guarantee</h3>
+                                    <p class="text-slate-400 text-sm">Financially backed Service Level Agreements (SLAs) for total business continuity.</p>
+                                </div>
+                            </div>
+
+                            <!-- Pillar 3 -->
+                            <div class="flex gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/30 flex-shrink-0 flex items-center justify-center text-purple-400">
+                                    <i data-lucide="headphones" class="w-6 h-6"></i>
+                                </div>
+                                <div>
+                                    <h3 class="text-lg font-bold text-white mb-1">24/7 Tier-3 Engineering Support</h3>
+                                    <p class="text-slate-400 text-sm">Direct, immediate access to senior DevOps engineers—no entry-level helpdesks.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tech Stack Badges & Visual Graphic -->
+                    <div class="glass-panel rounded-3xl p-8 border border-slate-800 relative">
+                        <div class="text-center font-semibold text-slate-300 mb-6 text-sm">Supported Ecosystems & Technologies</div>
+                        
+                        <div class="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center hover:border-brand-500/40 transition-colors">
+                                <i data-lucide="cloud" class="w-8 h-8 text-brand-400 mx-auto mb-2"></i>
+                                <span class="text-xs font-semibold text-slate-300 block">AWS / Azure / GCP</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center hover:border-brand-500/40 transition-colors">
+                                <i data-lucide="box" class="w-8 h-8 text-cyan-400 mx-auto mb-2"></i>
+                                <span class="text-xs font-semibold text-slate-300 block">Kubernetes</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center hover:border-brand-500/40 transition-colors">
+                                <i data-lucide="layers" class="w-8 h-8 text-indigo-400 mx-auto mb-2"></i>
+                                <span class="text-xs font-semibold text-slate-300 block">Terraform IaC</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center hover:border-brand-500/40 transition-colors">
+                                <i data-lucide="shield-alert" class="w-8 h-8 text-purple-400 mx-auto mb-2"></i>
+                                <span class="text-xs font-semibold text-slate-300 block">Cloudflare Enterprise</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center hover:border-brand-500/40 transition-colors">
+                                <i data-lucide="database" class="w-8 h-8 text-emerald-400 mx-auto mb-2"></i>
+                                <span class="text-xs font-semibold text-slate-300 block">PostgreSQL / Redis</span>
+                            </div>
+                            <div class="p-4 rounded-xl bg-slate-900/80 border border-slate-800 text-center hover:border-brand-500/40 transition-colors">
+                                <i data-lucide="git-branch" class="w-8 h-8 text-pink-400 mx-auto mb-2"></i>
+                                <span class="text-xs font-semibold text-slate-300 block">CI/CD Automation</span>
+                            </div>
+                        </div>
+
+                        <!-- Mini Code Block Accent -->
+                        <div class="mt-6 p-4 rounded-xl bg-dark-900 border border-slate-800 font-mono text-[11px] text-slate-400 overflow-x-auto">
+                            <div class="flex items-center gap-2 mb-2 border-b border-slate-800 pb-2">
+                                <span class="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
+                                <span class="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
+                                <span class="text-slate-500 text-[10px] ml-2">infra-deployment.tf</span>
+                            </div>
+                            <p class="text-brand-400">module <span class="text-white">"core_cluster"</span> {</p>
+                            <p class="pl-4">source = <span class="text-cyan-300">"nexus/cloud/aws"</span></p>
+                            <p class="pl-4">ha_enabled = <span class="text-emerald-400">true</span></p>
+                            <p class="pl-4">auto_scale_range = <span class="text-purple-300">[5, 100]</span></p>
+                            <p class="text-brand-400">}</p>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS SECTION -->
+        <section id="testimonials" class="py-24 relative z-10 border-t border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-xs font-bold text-brand-400 uppercase tracking-widest">Case Studies & Validation</span>
+                    <h2 class="text-3xl sm:text-4xl font-bold text-white mt-2">Trusted by Engineering Leaders</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    
+                    <!-- Card 1 -->
+                    <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex gap-1 text-cyan-400 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            </div>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                "NexusInfra restructured our cloud environment in 3 weeks without a single minute of downtime. Our cloud infrastructure spending plummeted by 38% while throughput doubled."
+                            </p>
+                        </div>
+                        <div class="border-t border-slate-800 pt-4 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">
+                                EA
+                            </div>
+                            <div>
+                                <div class="text-white text-sm font-semibold">Elena Rostova</div>
+                                <div class="text-slate-500 text-xs">VP of Infrastructure, FinTech Corp</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 2 -->
+                    <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex gap-1 text-cyan-400 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            </div>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                "Their 24/7 NOC monitoring team caught a massive distributed attack before our internal team even triggered an alert. Absolutely mission-critical partners."
+                            </p>
+                        </div>
+                        <div class="border-t border-slate-800 pt-4 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center font-bold text-sm">
+                                MK
+                            </div>
+                            <div>
+                                <div class="text-white text-sm font-semibold">Marcus Vance</div>
+                                <div class="text-slate-500 text-xs">CTO, DataScale Global</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Card 3 -->
+                    <div class="glass-panel p-8 rounded-2xl flex flex-col justify-between">
+                        <div>
+                            <div class="flex gap-1 text-cyan-400 mb-4">
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                                <i data-lucide="star" class="w-4 h-4 fill-current"></i>
+                            </div>
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+                                "Migrating legacy databases to Kubernetes seemed impossible until NexusInfra stepped in with their IaC automation templates. Incredible precision."
+                            </p>
+                        </div>
+                        <div class="border-t border-slate-800 pt-4 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-sm">
+                                SJ
+                            </div>
+                            <div>
+                                <div class="text-white text-sm font-semibold">Sarah Jenkins</div>
+                                <div class="text-slate-500 text-xs">Head of DevOps, BioHealth Systems</div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT & CONSULTATION FORM -->
+        <section id="contact" class="py-24 relative z-10 bg-dark-900/80 border-t border-slate-800/60">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    
+                    <!-- Contact Info Column -->
+                    <div class="lg:col-span-5 space-y-6">
+                        <span class="text-xs font-bold text-brand-400 uppercase tracking-widest">Get In Touch</span>
+                        <h2 class="text-3xl sm:text-4xl font-bold text-white">Let’s Architect Your Next Solution</h2>
+                        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                            Schedule a free 30-minute infrastructure audit with a Senior Principal Architect today.
+                        </p>
+
+                        <div class="space-y-4 pt-4">
+                            <div class="flex items-center gap-4 text-slate-300">
+                                <div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-brand-400 border border-slate-700">
+                                    <i data-lucide="mail" class="w-5 h-5"></i>
+                                </div>
+                                <span class="text-sm">enterprise@nexusinfra.io</span>
+                            </div>
+                            <div class="flex items-center gap-4 text-slate-300">
+                                <div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-brand-400 border border-slate-700">
+                                    <i data-lucide="phone" class="w-5 h-5"></i>
+                                </div>
+                                <span class="text-sm">+1 (800) 555-NEXUS</span>
+                            </div>
+                            <div class="flex items-center gap-4 text-slate-300">
+                                <div class="w-10 h-10 rounded-lg bg-slate-800 flex items-center justify-center text-brand-400 border border-slate-700">
+                                    <i data-lucide="map-pin" class="w-5 h-5"></i>
+                                </div>
+                                <span class="text-sm">Global HQ: Tech District 1, San Francisco, CA</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Interactive Form Column -->
+                    <div class="lg:col-span-7">
+                        <form id="consultationForm" class="glass-panel p-8 rounded-3xl border border-slate-800 space-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Full Name</label>
+                                    <input type="text" required placeholder="Alex Mercer" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-400 transition-colors">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Work Email</label>
+                                    <input type="email" required placeholder="alex@company.com" class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-400 transition-colors">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Primary Interest</label>
+                                    <select class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-400 transition-colors">
+                                        <option>Cloud Architecture & Migration</option>
+                                        <option>Cyber Security & SOC</option>
+                                        <option>DevOps & Automation</option>
+                                        <option>Disaster Recovery</option>
+                                        <option>Full Infrastructure Audit</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Estimated Cloud Budget</label>
+                                    <select class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-400 transition-colors">
+                                        <option>$2k - $10k / month</option>
+                                        <option>$10k - $50k / month</option>
+                                        <option>$50k+ / month</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Project Brief / Infrastructure Challenge</label>
+                                <textarea rows="4" required placeholder="Tell us about your technical requirements or infrastructure bottlenecks..." class="w-full bg-slate-900/90 border border-slate-700 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-brand-400 transition-colors"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full inline-flex items-center justify-center gap-2 text-sm font-bold text-slate-950 bg-gradient-to-r from-brand-400 to-cyan-400 hover:from-cyan-400 hover:to-brand-400 py-4 rounded-xl shadow-lg shadow-brand-500/20 transition-all">
+                                <span>Submit Request</span>
+                                <i data-lucide="send" class="w-4 h-4"></i>
+                            </button>
+
+                            <!-- Success Banner (Hidden by default) -->
+                            <div id="formSuccess" class="hidden p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm text-center">
+                                Request received! A Principal Architect will contact you within 2 business hours.
+                            </div>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="glass-panel border-t border-slate-800 relative z-10 pt-16 pb-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+                
+                <!-- Brand Column -->
+                <div class="md:col-span-1 space-y-4">
+                    <a href="#" class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center">
+                            <i data-lucide="cpu" class="w-5 h-5 text-slate-950"></i>
+                        </div>
+                        <span class="text-lg font-bold tracking-tight text-white">NEXUS<span class="text-brand-400">INFRA</span></span>
+                    </a>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Next-generation cloud infrastructure, cyber resilience, and high-availability systems for enterprises worldwide.
+                    </p>
+                </div>
+
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Solutions</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="#solutions" class="hover:text-brand-400 transition-colors">Cloud Architecture</a></li>
+                        <li><a href="#solutions" class="hover:text-brand-400 transition-colors">Cyber Security & Compliance</a></li>
+                        <li><a href="#solutions" class="hover:text-brand-400 transition-colors">Enterprise SD-WAN</a></li>
+                        <li><a href="#solutions" class="hover:text-brand-400 transition-colors">Kubernetes & DevOps</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Company & Tools</h4>
+                    <ul class="space-y-2 text-xs text-slate-400">
+                        <li><a href="#calculator" class="hover:text-brand-400 transition-colors">Cost Estimator Tool</a></li>
+                        <li><a href="#why-us" class="hover:text-brand-400 transition-colors">Security Certifications</a></li>
+                        <li><a href="#testimonials" class="hover:text-brand-400 transition-colors">Case Studies</a></li>
+                        <li><a href="#contact" class="hover:text-brand-400 transition-colors">Consultation Audit</a></li>
+                    </ul>
+                </div>
+
+                <!-- Status Indicator -->
+                <div>
+                    <h4 class="text-xs font-bold text-white uppercase tracking-wider mb-4">Network Status</h4>
+                    <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-3">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <span class="text-xs font-semibold text-emerald-400">All Systems Operational</span>
+                        </div>
+                        <div class="text-[11px] text-slate-400">
+                            Global Network Latency: <span class="text-slate-200">14.2ms</span><br>
+                            Active NOC Region: <span class="text-slate-200">US-East & EU-Central</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="border-t border-slate-800/80 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+                <p>&copy; 2026 NexusInfra Solutions Inc. All rights reserved.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="hover:text-slate-400 transition-colors">Privacy Policy</a>
+                    <a href="#" class="hover:text-slate-400 transition-colors">Terms of Service</a>
+                    <a href="#" class="hover:text-slate-400 transition-colors">SLA Guarantees</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE SCRIPT LOGIC -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Close mobile menu when a link is clicked
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // INFRASTRUCTURE COST CALCULATOR LOGIC
+        const nodesInput = document.getElementById('nodesInput');
+        const storageInput = document.getElementById('storageInput');
+        const ddosToggle = document.getElementById('ddosToggle');
+        const failoverToggle = document.getElementById('failoverToggle');
+        const slaBtns = document.querySelectorAll('.sla-btn');
+
+        const nodesVal = document.getElementById('nodesVal');
+        const storageVal = document.getElementById('storageVal');
+        
+        const computeCostEl = document.getElementById('computeCost');
+        const storageCostEl = document.getElementById('storageCost');
+        const slaCostEl = document.getElementById('slaCost');
+        const addonsCostEl = document.getElementById('addonsCost');
+        const totalPriceEl = document.getElementById('totalPrice');
+
+        let currentSlaMultiplier = 1.3; // Default Enterprise tier
+
+        // SLA Button Selection Logic
+        slaBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                slaBtns.forEach(b => {
+                    b.classList.remove('active', 'border-brand-400', 'bg-brand-500/10', 'text-brand-400', 'font-semibold');
+                    b.classList.add('border-slate-700', 'text-slate-300', 'font-medium');
+                });
+                btn.classList.add('active', 'border-brand-400', 'bg-brand-500/10', 'text-brand-400', 'font-semibold');
+                btn.classList.remove('border-slate-700', 'text-slate-300', 'font-medium');
+
+                currentSlaMultiplier = parseFloat(btn.getAttribute('data-multiplier'));
+                calculateCost();
+            });
+        });
+
+        function calculateCost() {
+            const nodes = parseInt(nodesInput.value);
+            const storage = parseInt(storageInput.value);
+
+            // Base pricing constants
+            const costPerNode = 120; // $120 per node/month
+            const costPerTB = 45;    // $45 per TB NVMe/month
+
+            // Calculations
+            const computeBase = nodes * costPerNode;
+            const storageBase = storage * costPerTB;
+
+            // SLA calculation
+            const rawSubtotal = computeBase + storageBase;
+            const slaAmount = Math.round((rawSubtotal * currentSlaMultiplier) - rawSubtotal);
+
+            // Addons
+            let addonsAmount = 0;
+            if (ddosToggle.checked) addonsAmount += 350;
+            if (failoverToggle.checked) addonsAmount += Math.round(computeBase * 0.4);
+
+            const grandTotal = rawSubtotal + slaAmount + addonsAmount;
+
+            // Update UI Displays
+            nodesVal.textContent = `${nodes}`;
+            storageVal.textContent = `${storage} TB`;
+
+            computeCostEl.textContent = `$${computeBase.toLocaleString()}`;
+            storageCostEl.textContent = `$${storageBase.toLocaleString()}`;
+            slaCostEl.textContent = `$${slaAmount.toLocaleString()}`;
+            addonsCostEl.textContent = `$${addonsAmount.toLocaleString()}`;
+            totalPriceEl.textContent = `$${grandTotal.toLocaleString()}`;
+        }
+
+        // Attach event listeners for real-time recalculation
+        nodesInput.addEventListener('input', calculateCost);
+        storageInput.addEventListener('input', calculateCost);
+        ddosToggle.addEventListener('change', calculateCost);
+        failoverToggle.addEventListener('change', calculateCost);
+
+        // Initial Calculation on Load
+        calculateCost();
+
+        // Contact Form Handling (Prevents page reload and shows inline confirmation)
+        const consultationForm = document.getElementById('consultationForm');
+        const formSuccess = document.getElementById('formSuccess');
+
+        consultationForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            formSuccess.classList.remove('hidden');
+            consultationForm.reset();
+            setTimeout(() => {
+                formSuccess.classList.add('hidden');
+            }, 6000);
+        });
+    </script>
+</body>
+</html>
